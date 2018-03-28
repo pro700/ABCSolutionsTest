@@ -13,9 +13,9 @@ namespace ABCSolutionsTest.DAL
         {
         }
 
-        public ABCTestDBConext(DbContextOptions<ABCTestDBConext> options) : base(options)
-        {
-        }
+        //public ABCTestDBConext(DbContextOptions<ABCTestDBConext> options) : base(options)
+        //{
+        //}
 
         public DbSet<User> Users { get; set; }
         public DbSet<Message> Messages { get; set; }
@@ -25,9 +25,27 @@ namespace ABCSolutionsTest.DAL
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>()
+                        .HasAlternateKey(c => c.Login)
+                        .HasName("AlternateKey_Login");
+
+            modelBuilder.Entity<User>()
+                        .HasAlternateKey(c => c.EMail)
+                        .HasName("AlternateKey_EMail");
+
+            modelBuilder.Entity<User>()
                 .HasMany(e => e.Messages)
                 .WithOne(e => e.User)
                 .OnDelete(DeleteBehavior.Cascade);
+
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder
+                .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ABCSolutionsTest;Trusted_Connection=True;", providerOptions => providerOptions.CommandTimeout(60))
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+
+            base.OnConfiguring(optionsBuilder);
 
         }
     }

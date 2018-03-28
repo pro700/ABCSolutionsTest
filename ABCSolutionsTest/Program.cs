@@ -17,6 +17,7 @@ namespace ABCSolutionsTest
     {
         public static void Main(string[] args)
         {
+            /*
             DbContextOptionsBuilder<ABCTestDBConext> optionsBuilder = new DbContextOptionsBuilder<ABCTestDBConext>();
             optionsBuilder
                 .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ABCSolutionsTest;Trusted_Connection=True;", providerOptions => providerOptions.CommandTimeout(60))
@@ -26,6 +27,14 @@ namespace ABCSolutionsTest
             {
                 ABCTestDBInitializer.Initialize(dbcontext);
             }
+            */
+
+            using (ABCTestDBConext dbcontext = new ABCTestDBConext())
+            {
+                //dbcontext.Database.EnsureDeleted();
+                ABCTestDBInitializer.Initialize(dbcontext);
+            }
+
 
 
             var host = BuildWebHost(args);

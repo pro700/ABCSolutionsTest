@@ -23,8 +23,8 @@ namespace ABCSolutionsTest.DAL
 
             var users = new User[]
             {
-                new User{Name="Administrator",Login="adm",Password="1",EMail="",IsAdmin=true},
-                new User{Name="Guest",Login="guest",Password="1",EMail="",IsAdmin=false}
+                new User{Name="Administrator",Login="adm",Password="1",EMail="adm@abc.ua",IsAdmin=true},
+                new User{Name="Guest",Login="guest",Password="1",EMail="guest@abc.ua",IsAdmin=false}
             };
 
             foreach (User u in users)

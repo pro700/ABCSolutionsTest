@@ -23,11 +23,14 @@
                 </button>
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">ABCSolutionsTest</a>
             </div>
-            @if (ABCSolutionsTest.Helpers.SessionExtension.IsAuthenticated())
+            @if (ViewBag.IsAuthenticated)
             {
             <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="navbar-text">Вы вошли как Username</li>
+                    <li class="navbar-text">Вы вошли как @ViewBag.CurrentUser.Name</li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Logout">Logout</a></li>
                 </ul>
             </div>

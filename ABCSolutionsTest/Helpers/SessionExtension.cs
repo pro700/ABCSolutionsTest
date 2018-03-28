@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ABCSolutionsTest.Models;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,22 @@ namespace ABCSolutionsTest.Helpers
     {
 
 
-        public static bool IsAuthenticated()
+        public static bool IsAuthenticated(ISession session)
         {
-            return false;
+            User user = GetCurrentUser(session);
+            if (user == null)
+                return false;
+            return true;
+        }
+
+        public static User GetCurrentUser(ISession session)
+        {
+            return session.GetObjectFromJson<User>("CurrentUser");
+        }
+
+        public static void SetCurrentUser(ISession session, User newUser)
+        {
+            session.SetObjectAsJson("CurrentUser", newUser);
         }
 
         public static void SetObjectAsJson(this ISession session, string key, object value)
