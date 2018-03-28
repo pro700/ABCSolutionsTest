@@ -7,6 +7,9 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using ABCSolutionsTest.DAL;
 
 namespace ABCSolutionsTest
 {
@@ -14,7 +17,19 @@ namespace ABCSolutionsTest
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            DbContextOptionsBuilder<ABCTestDBConext> optionsBuilder = new DbContextOptionsBuilder<ABCTestDBConext>();
+            optionsBuilder
+                .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ABCSolutionsTest;Trusted_Connection=True;", providerOptions => providerOptions.CommandTimeout(60))
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+
+            using (ABCTestDBConext dbcontext = new ABCTestDBConext(optionsBuilder.Options))
+            {
+                ABCTestDBInitializer.Initialize(dbcontext);
+            }
+
+
+            var host = BuildWebHost(args);
+            host.Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>

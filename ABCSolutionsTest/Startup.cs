@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using ABCSolutionsTest.DAL;
 
 namespace ABCSolutionsTest
 {
@@ -21,7 +23,14 @@ namespace ABCSolutionsTest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //var connection = @"Server=(localdb)\mssqllocaldb;Database=ABCSolutionsTest;Trusted_Connection=True;";
+            //services.AddDbContext<ABCTestDBConext>(options => options.UseSqlServer(connection));
+
+
+
             services.AddMvc();
+            services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
+            services.AddSession(); // Включаем сервис сессии!
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,12 +48,15 @@ namespace ABCSolutionsTest
 
             app.UseStaticFiles();
 
+            app.UseSession(); // Используем сесии. IMPORTANT: This session call MUST go before UseMvc()
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
         }
     }
 }
