@@ -24,13 +24,23 @@ namespace ABCSolutionsTest.DAL
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<User>()
-                        .HasAlternateKey(c => c.Login)
-                        .HasName("AlternateKey_Login");
+            //modelBuilder.Entity<User>()
+            //            .HasAlternateKey(c => c.Login)
+            //            .HasName("AlternateKey_Login");
+
+            //modelBuilder.Entity<User>()
+            //            .HasAlternateKey(c => c.EMail)
+            //            .HasName("AlternateKey_EMail");
 
             modelBuilder.Entity<User>()
-                        .HasAlternateKey(c => c.EMail)
-                        .HasName("AlternateKey_EMail");
+                .HasIndex(b => b.Login)
+                .IsUnique()
+                .HasName("UniqueKey_Login");
+
+            modelBuilder.Entity<User>()
+                .HasIndex(b => b.EMail)
+                .IsUnique()
+                .HasName("UniqueKey_EMail");
 
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Messages)
