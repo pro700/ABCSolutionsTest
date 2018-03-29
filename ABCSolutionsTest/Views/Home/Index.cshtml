@@ -6,29 +6,35 @@
 
 <div class="row">
     <div class="col-md-5">
-        @if (ViewBag.IsAuthenticated)
-        {
-            @if (ViewBag.CurrentUser.IsAdmin)
-            {
-                <h4>
-                    Административная панель
-                </h4>
-                <ul>
-                    <li><a asp-area="" asp-controller="Admin" asp-action="Create">Создать нового пользователя</a></li>
-                    <li><a asp-area="" asp-controller="Admin" asp-action="Users">Перейти к списку пользователей</a></li>
-                </ul>
-
-            }
-        }
-        else
-        {
-            <ul>
-                <li>Выполните <a asp-area="" asp-controller="Home" asp-action="Login">Login</a></li>
-                <li>или <a asp-area="" asp-controller="Home" asp-action="Register">Register</a></li>
-            </ul>
-            <br />
-            <p> Можно зайти как <strong>adm</strong> с паролем <strong>1</strong></p>
-            <p> или как <strong>guest</strong> с паролем <strong>1</strong></p>
-        }
+@if (ViewBag.IsAuthenticated)
+{
+@if (ViewBag.CurrentUser.IsAdmin)
+{
+        <h4>
+            Административная панель
+        </h4>
+        <ul>
+            <li><a asp-area="" asp-controller="Admin" asp-action="Create">Создать нового пользователя</a></li>
+            <li><a asp-area="" asp-controller="Admin" asp-action="Users">Перейти к списку пользователей</a></li>
+        </ul>
+}
+        <h4>
+            Пользовательская панель
+        </h4>
+        <ul>
+            <li><a asp-area="" asp-controller="User" asp-action="CreateMessage">Написать сообщение пользователю</a></li>
+            <li><a asp-area="" asp-controller="User" asp-action="Messages">Перейти к списку сообщений</a></li>
+        </ul>
+}
+else
+{
+        <ul>
+            <li>Выполните <a asp-area="" asp-controller="Home" asp-action="Login">Login</a></li>
+            <li>или <a asp-area="" asp-controller="Home" asp-action="Register">Register</a></li>
+        </ul>
+        <br />
+        <p> Можно зайти как <strong>adm</strong> с паролем <strong>1</strong></p>
+        <p> или как <strong>guest</strong> с паролем <strong>1</strong></p>
+}
     </div>
 </div>

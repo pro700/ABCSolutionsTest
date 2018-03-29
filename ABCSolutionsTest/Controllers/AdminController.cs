@@ -12,7 +12,6 @@ using ABCSolutionsTest.Helpers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using StackExchange.Redis;
-//using System.Data.Entity.Infrastructure;
 
 namespace ABCSolutionsTest.Controllers
 {

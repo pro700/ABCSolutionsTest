@@ -24,14 +24,6 @@ namespace ABCSolutionsTest.DAL
         {
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.Entity<User>()
-            //            .HasAlternateKey(c => c.Login)
-            //            .HasName("AlternateKey_Login");
-
-            //modelBuilder.Entity<User>()
-            //            .HasAlternateKey(c => c.EMail)
-            //            .HasName("AlternateKey_EMail");
-
             modelBuilder.Entity<User>()
                 .HasIndex(b => b.Login)
                 .IsUnique()
@@ -45,8 +37,14 @@ namespace ABCSolutionsTest.DAL
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Messages)
                 .WithOne(e => e.User)
+                .HasForeignKey(e => e.UserID)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.AuthorMessages)
+                .WithOne(e => e.Author)
+                .HasForeignKey(e => e.AuthorID)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

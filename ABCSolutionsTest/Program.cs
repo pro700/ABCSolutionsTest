@@ -19,7 +19,7 @@ namespace ABCSolutionsTest
         {
             using (ABCTestDBConext dbcontext = new ABCTestDBConext())
             {
-                dbcontext.Database.EnsureDeleted();
+                //dbcontext.Database.EnsureDeleted();
                 ABCTestDBInitializer.Initialize(dbcontext);
             }
 

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ABCSolutionsTest.Models.Message>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Список сообщений";
+}
+
+<p>
+    <a asp-action="CreateMessage">Написать новое сообщение</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Author)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Text)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Time)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Author.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Text)
+                </td>
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>

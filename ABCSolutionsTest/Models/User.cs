@@ -30,5 +30,6 @@ namespace ABCSolutionsTest.Models
         public bool IsAdmin { get; set; }
 
         public virtual ICollection<Message> Messages { get; set; }
+        public virtual ICollection<Message> AuthorMessages { get; set; }
     }
 }
