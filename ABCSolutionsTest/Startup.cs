@@ -16,6 +16,7 @@ namespace ABCSolutionsTest
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
         }
 
         public IConfiguration Configuration { get; }
@@ -26,6 +27,12 @@ namespace ABCSolutionsTest
             services.AddMvc();
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
             services.AddSession(); // Включаем сервис сессии!
+
+            services.AddDbContext<ABCTestDBConext>(options => 
+                options
+                    .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ABCSolutionsTest;Trusted_Connection=True;", providerOptions => providerOptions.CommandTimeout(60))
+                    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
+                );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +59,13 @@ namespace ABCSolutionsTest
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
+            using (var dbcontext = app.ApplicationServices.CreateScope().ServiceProvider.GetService<ABCTestDBConext>())
+            {
+                ABCTestDBInitializer.Initialize(dbcontext);
+            }
+
         }
+
+
     }
 }

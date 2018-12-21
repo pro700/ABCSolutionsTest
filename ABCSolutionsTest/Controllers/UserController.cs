@@ -18,6 +18,13 @@ namespace ABCSolutionsTest.Controllers
 {
     public class UserController : Controller
     {
+        private readonly ABCTestDBConext _dbctx;
+
+        public UserController(ABCTestDBConext dbctx)
+        {
+            _dbctx = dbctx;
+        }
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);
@@ -47,21 +54,21 @@ namespace ABCSolutionsTest.Controllers
 
             if (ModelState.IsValid)
             {
-                using (ABCTestDBConext dbctx = new ABCTestDBConext())
-                {
+                //using (ABCTestDBConext dbctx = new ABCTestDBConext())
+                //{
                     try
                     {
                         message.Time = DateTime.Now;
                         message.AuthorID = ViewBag.CurrentUser.Id;
-                        dbctx.Messages.Add(message);
-                        dbctx.SaveChanges();
+                        _dbctx.Messages.Add(message);
+                        _dbctx.SaveChanges();
                         ViewBag.SuccessMessage = "Сообщение успешно отправлено!";
                     }
                     catch (Exception x)
                     {
                         ViewBag.ErrorMessage = x.Message;
                     }
-                }
+                //}
             }
             else
             {
@@ -79,16 +86,16 @@ namespace ABCSolutionsTest.Controllers
         {
             List<Message> messages = new List<Message>();
 
-            using (ABCTestDBConext db = new ABCTestDBConext())
-            {
+            //using (ABCTestDBConext db = new ABCTestDBConext())
+            //{
                 int CurrentUserId = ViewBag.CurrentUser.Id;
 
-                messages = db.Messages
+                messages = _dbctx.Messages
                     .Where(e => e.UserID == CurrentUserId)
                     .Include(e => e.Author)
                     .ToList();
 
-            }
+            //}
 
             return View(messages);
 
@@ -99,10 +106,10 @@ namespace ABCSolutionsTest.Controllers
         {
             List<User> users = new List<User>();
 
-            using (ABCTestDBConext dbctx = new ABCTestDBConext())
-            {
-                users.AddRange(dbctx.Users);
-            }
+            //using (ABCTestDBConext dbctx = new ABCTestDBConext())
+            //{
+                users.AddRange(_dbctx.Users);
+            //}
 
             ViewBag.Users = new SelectList(users, "Id", "Name");
         }

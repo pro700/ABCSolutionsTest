@@ -9,13 +9,15 @@ namespace ABCSolutionsTest.DAL
 {
     public class ABCTestDBConext : DbContext
     {
-        public ABCTestDBConext() : base()
-        {
-        }
-
-        //public ABCTestDBConext(DbContextOptions<ABCTestDBConext> options) : base(options)
-        //{
+        //public ABCTestDBConext() : base()
+        // {
         //}
+
+        
+        public ABCTestDBConext(DbContextOptions<ABCTestDBConext> options) : base(options)
+        {
+            //Database.SetInitializer(new SchoolDBInitializer());
+        }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Message> Messages { get; set; }
@@ -49,9 +51,9 @@ namespace ABCSolutionsTest.DAL
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder
-                .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ABCSolutionsTest;Trusted_Connection=True;", providerOptions => providerOptions.CommandTimeout(60))
-                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            //optionsBuilder
+            //    .UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=ABCSolutionsTest;Trusted_Connection=True;", providerOptions => providerOptions.CommandTimeout(60))
+            //    .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
             base.OnConfiguring(optionsBuilder);
 

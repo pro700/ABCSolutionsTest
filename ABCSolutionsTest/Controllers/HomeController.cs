@@ -15,6 +15,12 @@ namespace ABCSolutionsTest.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ABCTestDBConext _dbctx;
+
+        public HomeController(ABCTestDBConext dbctx)
+        {
+            _dbctx = dbctx;
+        }
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
@@ -62,23 +68,23 @@ namespace ABCSolutionsTest.Controllers
 
             if (ModelState.IsValid)
             {
-                using (ABCTestDBConext dbctx = new ABCTestDBConext())
-                {
+                //using (ABCTestDBConext dbctx = new ABCTestDBConext())
+                //{
                     try
                     {
-                        dbctx.Users.Add(user);
-                        dbctx.SaveChanges();
+                        _dbctx.Users.Add(user);
+                        _dbctx.SaveChanges();
                         SessionExtension.SetCurrentUser(HttpContext.Session, user);
                         return RedirectToAction("Index", user);
 
                     }
                     catch (DbUpdateException x)
                     {
-                        if (dbctx.Users.Count(e => e.EMail == user.EMail) > 0)
+                        if (_dbctx.Users.Count(e => e.EMail == user.EMail) > 0)
                         {
                             ViewBag.ErrorMessage = "Такой EMail уже существует!";
                         }
-                        else if (dbctx.Users.Count(e => e.Login == user.Login) > 0)
+                        else if (_dbctx.Users.Count(e => e.Login == user.Login) > 0)
                         {
                             ViewBag.ErrorMessage = "Такой Login уже существует!";
                         }
@@ -87,7 +93,7 @@ namespace ABCSolutionsTest.Controllers
                             ViewBag.ErrorMessage = x.Message;
                         }
                     }
-                }
+                //}
             }
             else
             {
@@ -105,9 +111,9 @@ namespace ABCSolutionsTest.Controllers
 
             if (ModelState.IsValid)
             {
-                using (ABCTestDBConext dbctx = new ABCTestDBConext())
-                {
-                    User user = dbctx.Users.SingleOrDefault(user1 => user1.Login == model.Login);
+                //using (ABCTestDBConext dbctx = new ABCTestDBConext())
+                //{
+                    User user = _dbctx.Users.SingleOrDefault(user1 => user1.Login == model.Login);
 
                     if (user == null)
                     {
@@ -118,7 +124,7 @@ namespace ABCSolutionsTest.Controllers
                         SessionExtension.SetCurrentUser(HttpContext.Session, user);
                         return RedirectToAction("Index", user);
                     }
-                }
+                //}
             }
             else
             {

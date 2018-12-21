@@ -17,11 +17,13 @@ namespace ABCSolutionsTest
     {
         public static void Main(string[] args)
         {
-            using (ABCTestDBConext dbcontext = new ABCTestDBConext())
-            {
-                //dbcontext.Database.EnsureDeleted();
-                ABCTestDBInitializer.Initialize(dbcontext);
-            }
+
+
+            //using (ABCTestDBConext dbcontext = new ABCTestDBConext())
+            //{
+            //    //dbcontext.Database.EnsureDeleted();
+            //    ABCTestDBInitializer.Initialize(dbcontext);
+            //}
 
             var host = BuildWebHost(args);
             host.Run();
